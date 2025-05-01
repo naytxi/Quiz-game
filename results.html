@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <title>Resultados del Quiz</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div id="results">
+    <h1>Resultados del Quiz</h1>
+    <p>Tu puntuación fue:</p>
+    <h2 id="scoreDisplay"></h2>
+    <canvas id="resultsChart" width="400" height="200"></canvas>
+
+    <br/>
+    <button onclick="window.location.href='home.html'">Volver al Inicio</button>
+    <button onclick="window.location.href='question.html'">Intentar de Nuevo</button>
+  </div>
+
+  <script>
+    const score = localStorage.getItem('lastScore') || 0;
+    document.getElementById('scoreDisplay').textContent = `${score}/10`;
+
+    const ctx = document.getElementById('resultsChart').getContext('2d');
+    new Chart(ctx, {
+      type: 'bar',
+      data: {
+        labels: ['Correctas', 'Incorrectas'],
+        datasets: [{
+          label: 'Tu Resultado',
+          data: [score, 10 - score],
+          backgroundColor: ['#4caf50', '#f44336']
+        }]
+      },
+      options: {
+        responsive: true
+      }
+    });
+  </script>
+</body>
+</html>

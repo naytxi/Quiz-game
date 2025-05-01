@@ -1,0 +1,94 @@
+body {
+    background-color: #83ecec;
+    font-family: Arial, sans-serif;
+    color: white; 
+    text-align: center;
+    padding: 20px;
+    margin-bottom: 30px;
+  }
+  
+  #answer-buttons {
+    display: flex;              
+    justify-content: center; 
+    gap: 5px;               
+    flex-wrap: wrap;
+    margin-top: 20px;
+  }
+  
+  /* Estilo base para los botones */
+  button.btn {
+    padding: 5px 5px;
+    font-size: 1rem;
+    background-color:#1a3c6c;
+    color: white;  
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    width: 100%;
+    max-width: 150px; 
+    margin: 5px; 
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Sombra ligera */
+  }
+  
+  /* Efecto de Hover: cuando el ratón pasa por encima */
+  button.btn:hover {
+    background-color: #83ecec;
+    color: #1a3c6c; /* Cambia el color del texto al pasar el ratón */
+    box-shadow: 0 8px 10px rgba(0, 0, 0, 0.2); /* Sombra más intensa */
+  }
+  
+  /* Efecto de Clic: cuando se presiona el botón */
+  button.btn:active {
+    transform: scale(0.95); /* Reduce el tamaño del botón */
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3); /* Sombra más pronunciada */
+  }
+  
+
+  
+/* Botones de control */
+#start-btn,
+#next-btn {
+  padding: 10px 10px;
+  font-size: 1.1rem;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  margin: 10px auto;
+  display: block;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 5cap rgba(0, 0, 0, 0.1);
+  opacity: 0;
+  animation: fadeInUp 0.6s ease forwards;
+}
+
+/* Hover */
+#start-btn:hover,
+#next-btn:hover {
+  background-color: #1a3c6c;
+  transform: scale(1.05);
+  box-shadow: 0 6px 10px rgba(0, 0, 0, 0.2);
+}
+
+/* Active (al hacer clic) */
+#start-btn:active,
+#next-btn:active {
+  transform: scale(0.95);
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.2);
+}
+
+/* Animación de entrada */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+
+ 
