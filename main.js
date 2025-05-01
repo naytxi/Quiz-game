@@ -1,19 +1,14 @@
+//Empezamos capturando los elementos 
 const startButton = document.getElementById('start-btn');
 const nextButton = document.getElementById('next-btn');
 const questionContainerElement = document.getElementById('question-container');
 const questionElement = document.getElementById('question');
 const answerButtonsElement = document.getElementById('answer-buttons');
-
+//Creamos un array vacio que tendra las preguntas y un index que empiece en 0
 let questionList = [];
 let currentQuestionIndex = 0;
 
-startButton.addEventListener('click', startGame);
-
-nextButton.addEventListener('click', () => {
-  currentQuestionIndex++;
-  setNextQuestion();
-});
-
+//Creamos una funcion asincrona que se encargara de iniciar el juego, ocultar el boton de inicio y mostrar las preguntas
 async function startGame() {
   startButton.classList.add('hide');
   currentQuestionIndex = 0;
@@ -22,18 +17,17 @@ async function startGame() {
   setNextQuestion();
 }
 
+//Creamos una funcion asincrona que se encargara de obtener las preguntas de la API, formatearlas y devolverlas
 async function getQuestions() {
   const res = await fetch('https://opentdb.com/api.php?amount=10&type=multiple');
   const data = await res.json();
 
-  // Formatear preguntas y respuestas
   return data.results.map(q => {
     const answers = [...q.incorrect_answers.map(a => ({
       text: a,
       correct: false
     })), { text: q.correct_answer, correct: true }];
 
-    // Mezclar respuestas
     return {
       question: decodeHTML(q.question),
       answers: shuffle(answers)
@@ -107,3 +101,10 @@ function decodeHTML(html) {
   txt.innerHTML = html;
   return txt.value;
 }
+
+startButton.addEventListener('click', startGame);
+
+nextButton.addEventListener('click', () => {
+  currentQuestionIndex++;
+  setNextQuestion();
+});
