@@ -1,4 +1,4 @@
-const app = document.getElementById('app');
+/*const app = document.getElementById('app');
 
 let currentQuestionIndex = 0;
 let score = 0;
@@ -48,4 +48,4 @@ function decodeHTML(html) {
   return txt.value;
 }
 
-fetchQuestions();
+fetchQuestions();*/
