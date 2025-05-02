@@ -4,9 +4,10 @@ const nextButton = document.getElementById('next-btn');
 const questionContainerElement = document.getElementById('question-container');
 const questionElement = document.getElementById('question');
 const answerButtonsElement = document.getElementById('answer-buttons');
-//Creamos un array vacio que tendra las preguntas y un index que empiece en 0
+//Creamos un array vacio que tendra las preguntas y un index que empiece en 0, ademas de un contador para las preguntas correctas
 let questionList = [];
 let currentQuestionIndex = 0;
+let correctAnswersCount = 0;
 
 //Creamos una funcion asincrona que se encargara de iniciar el juego, ocultar el boton de inicio y mostrar las preguntas
 async function startGame() {
@@ -17,7 +18,7 @@ async function startGame() {
   setNextQuestion();
 }
 
-//Creamos una funcion asincrona que se encargara de obtener las preguntas y sus respuestas de la API con el token generado, formatearlas y devolverlas
+//Esta funcion asincrona que se encargara de obtener las preguntas y sus respuestas de la API con el token generado, formatearlas y devolverlas
 async function getQuestions() {
   const res = await fetch('https://quizapi.io/api/v1/questions?limit=10', {
     headers: {
@@ -84,14 +85,27 @@ function selectAnswer(e) {
   Array.from(answerButtonsElement.children).forEach(button => {
     button.disabled = true;
     setStatusClass(button, button.dataset.correct);
+    
   });
+
+  if (correct === "true") {
+    correctAnswersCount++;
+  }
 
   if (currentQuestionIndex < questionList.length - 1) {
     nextButton.classList.remove('hide');
-  } else {
+  } 
+
+  else {
+    localStorage.setItem('usuarioQuiz', JSON.stringify({
+      correctas: correctAnswersCount,
+      total: questionList.length
+    }));
+
     startButton.innerText = 'Reiniciar';
     startButton.classList.remove('hide');
   }
+
 }
 
 //Esta funcion se encargara de añadir la clase correcta o incorrecta a los botones dependiendo de si la respuesta es correcta o no
