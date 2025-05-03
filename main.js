@@ -10,6 +10,7 @@ let currentQuestionIndex = 0;
 let correctAnswersCount = 0;
 
 //Creamos una funcion asincrona que se encargara de iniciar el juego, ocultar el boton de inicio y mostrar las preguntas
+
 async function startGame() {
   startButton.classList.add('hide');
   currentQuestionIndex = 0;
@@ -137,3 +138,95 @@ nextButton.addEventListener('click', () => {
   currentQuestionIndex++;
   setNextQuestion();
 });
+
+// Esperamos a que el DOM se cargue completamente antes de ejecutar el script.
+document.addEventListener('DOMContentLoaded', function () {
+
+  // Obtener los datos de localStorage
+  const datos = JSON.parse(localStorage.getItem('usuarioQuiz'));
+
+  // Verificar si los datos existen
+  if (datos) {
+    const { correctas, total } = datos;
+
+    // Mostrar el puntaje en la página
+    document.getElementById('score').textContent = correctas;
+    document.getElementById('total').textContent = `/${total}`;
+
+    // Calcular el mensaje personalizado
+    const porcentaje = (correctas / total) * 100;
+    let message = "";
+
+    if (porcentaje === 100) {
+      message = "¡Perfecto! ¡Excelente trabajo!";
+    } else if (porcentaje >= 70) {
+      message = "¡Buen trabajo!";
+    } else if (porcentaje >= 50) {
+      message = "No está mal, pero puedes mejorar.";
+    } else {
+      message = "Necesitas practicar más. ¡Ánimo!";
+    }
+
+    // Mostrar el mensaje en la página
+    document.getElementById('result-message').textContent = message;
+
+    // Mostrar en consola
+    console.log("Datos desde localStorage:", datos);
+    console.log("Score:", correctas);
+    console.log("Total:", total);
+    console.log("Message:", message);
+  } else {
+    // Si no hay datos en localStorage, mostrar mensaje de error
+    document.getElementById('score').textContent = "0";
+    document.getElementById('total').textContent = "/0";
+    document.getElementById('result-message').textContent = "No se encontraron resultados. ¿Jugamos una partida?";
+    console.log("No se encontraron datos en localStorage.");
+  }
+});
+
+
+
+
+
+/*
+document.addEventListener('DOMContentLoaded', () => {
+  console.log("¿Se está ejecutando results.js?");
+
+  const datos = JSON.parse(localStorage.getItem('usuarioQuiz'));
+  console.log("Datos desde localStorage:", datos);
+
+  if (datos) {
+    const { correctas, total } = datos;
+    console.log("Score:", correctas);
+    console.log("Total:", total);
+
+    // Mostrar en la página
+    document.getElementById('score').textContent = correctas;
+    document.getElementById('total').textContent = `/${total}`;
+
+    // Calcular porcentaje y mensaje
+    const porcentaje = (correctas / total) * 100;
+    let message = "";
+
+    if (porcentaje === 100) {
+      message = "¡Perfecto! ¡Excelente trabajo!";
+    } else if (porcentaje >= 70) {
+      message = "¡Buen trabajo!";
+    } else if (porcentaje >= 50) {
+      message = "No está mal, pero puedes mejorar.";
+    } else {
+      message = "Necesitas practicar más. ¡Ánimo!";
+    }
+
+    console.log("Message:", message);
+    document.getElementById('result-message').textContent = message;
+
+  } else {
+    console.warn("No se encontraron resultados en localStorage.");
+    document.getElementById('score').textContent = "0";
+    document.getElementById('total').textContent = "/0";
+    document.getElementById('result-message').textContent = "No se encontraron resultados. ¿Jugamos una partida?";
+  }
+});
+*/
+    

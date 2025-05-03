@@ -3,30 +3,29 @@
 <head>
   <meta charset="UTF-8" />
   <title>SPA - Quiz</title>
-  <script src="./main.js" defer></script>
   <link rel="stylesheet" href="style.css" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 </head>
 <body>
+<header>
   <h1>QUIZ</h1>
+</header>
 
+<div class="page-container">
+  <!-- Bloque 1 -->
+  <div class="bloque">
+    <p>¡Welcome to the quiz!</p>
+    <!-- Envolvemos el botón con un enlace -->
+    <a href="question.html">
+      <button id="start-btn" class="btn">Take the Quiz</button>
+    </a>
+  </div>
 
-  <section id="question-container" class="hide">
-   
-
-    <div id="answer-buttons" class="btn-container">
-      <button class="btn">answer 1</button>
-      <button class="btn">answer 2</button>
-      <button class="btn">answer 3</button>
-      <button class="btn">answer 4</button>
-    </div> 
-
- <!-- Botón para iniciar el quiz -->
-  <button id="start-btn">Start Quiz</button>
-
-    <div class="controls">
-      <button id="next-btn" class="hide">Next</button>
-    </div>
-  </section>
+  <div class="bloque2">
+    <p>Your stats</p>
+  </div>
+</div>
 
 </body>
 </html>
+
