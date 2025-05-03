@@ -1,232 +1,165 @@
-//Empezamos capturando los elementos 
-const startButton = document.getElementById('start-btn');
-const nextButton = document.getElementById('next-btn');
-const questionContainerElement = document.getElementById('question-container');
-const questionElement = document.getElementById('question');
-const answerButtonsElement = document.getElementById('answer-buttons');
-//Creamos un array vacio que tendra las preguntas y un index que empiece en 0, ademas de un contador para las preguntas correctas
-let questionList = [];
-let currentQuestionIndex = 0;
-let correctAnswersCount = 0;
+//Este Domcontentloaded se encarga de cargar el DOM y ejecutar el código una vez que el DOM está completamente cargado
 
-//Creamos una funcion asincrona que se encargara de iniciar el juego, ocultar el boton de inicio y mostrar las preguntas
-
-async function startGame() {
-  startButton.classList.add('hide');
-  currentQuestionIndex = 0;
-  questionContainerElement.classList.remove('hide');
-  questionList = await getQuestions();
-  setNextQuestion();
-}
-
-//Esta funcion asincrona que se encargara de obtener las preguntas y sus respuestas de la API con el token generado, formatearlas y devolverlas
-async function getQuestions() {
-  const res = await fetch('https://quizapi.io/api/v1/questions?limit=10', {
-    headers: {
-      'X-Api-Key': 'VqCrxdX2mo4HsoTysxcRjIi9qFIgh52OqSvn8lEs'
-    }
-  });
-
-  const data = await res.json();
-
-  return data.map(q => {
-    const answers = [];
-
-    for (let key in q.answers) {
-      if (q.answers[key]) {
-        const letter = key.split('_')[1]; 
-        const correct = q.correct_answers[`answer_${letter}_correct`] === 'true';
-        answers.push({
-          text: q.answers[key],
-          correct: correct
-        });
-      }
-    }
-
-    return {
-      question: q.question,
-      answers: answers
-    };
-  });
-}
-
-//Creamos una funcion que se encargara de mostrar la siguiente pregunta, reiniciar el estado y mostrar la pregunta actual Y sus respuestas
-function setNextQuestion() {
-  resetState();
-  showQuestion(questionList[currentQuestionIndex]);
-}
-
-//Esta funcion se encargara de mostrar la pregunta y sus respuestas en el DOM, creando un boton por cada respuesta y añadiendo un evento click a cada uno de ellos
-function showQuestion(question) {
-  questionElement.innerText = question.question;
-  question.answers.forEach(answer => {
-    const button = document.createElement('button');
-    button.innerText = decodeHTML(answer.text);
-    button.classList.add('btn');
-    if (answer.correct) button.dataset.correct = true;
-    button.addEventListener('click', selectAnswer);
-    answerButtonsElement.appendChild(button);
-  });
-}
-
-//Esta en cambio se encargara de reiniciar el estado de las preguntas, ocultar el boton de siguiente y limpiar las respuestas anteriores
-function resetState() {
-  clearStatusClass(document.body);
-  nextButton.classList.add('hide');
-  answerButtonsElement.innerHTML = '';
-}
-
-//Aqui se encargara de seleccionar la respuesta correcta o incorrecta, deshabilitar los botones y mostrar el boton de siguiente si no es la ultima pregunta
-function selectAnswer(e) {
-  const selectedButton = e.target;
-  const correct = selectedButton.dataset.correct;
-
-  setStatusClass(selectedButton, correct);
-
-  Array.from(answerButtonsElement.children).forEach(button => {
-    button.disabled = true;
-    setStatusClass(button, button.dataset.correct);
-    
-  });
-
-  if (correct === "true") {
-    correctAnswersCount++;
-  }
-
-  if (currentQuestionIndex < questionList.length - 1) {
-    nextButton.classList.remove('hide');
-  } 
-
-  else {
-    localStorage.setItem('usuarioQuiz', JSON.stringify({
-      correctas: correctAnswersCount,
-      total: questionList.length
-    }));
-
-    startButton.innerText = 'Reiniciar';
-    startButton.classList.remove('hide');
-  }
-
-}
-
-//Esta funcion se encargara de añadir la clase correcta o incorrecta a los botones dependiendo de si la respuesta es correcta o no
-function setStatusClass(element, correct) {
-  clearStatusClass(element);
-  if (correct) {
-    element.classList.add('color-correct');
-  } else {
-    element.classList.add('color-wrong');
-  }
-}
-//Esta funcion se encargara de limpiar el estado de los botones, eliminando las clases correctas o incorrectas
-function clearStatusClass(element) {
-  element.classList.remove('color-correct');
-  element.classList.remove('color-wrong');
-}
-
-//Aqui decodificamos el HTML de las respuestas, para que se muestre correctamente en el DOM
-function decodeHTML(html) {
-  const txt = document.createElement("textarea");
-  txt.innerHTML = html;
-  return txt.value;
-}
-
-//Añadimos los eventos
-startButton.addEventListener('click', startGame);
-
-nextButton.addEventListener('click', () => {
-  currentQuestionIndex++;
-  setNextQuestion();
-});
-
-// Esperamos a que el DOM se cargue completamente antes de ejecutar el script.
 document.addEventListener('DOMContentLoaded', function () {
 
-  // Obtener los datos de localStorage
-  const datos = JSON.parse(localStorage.getItem('usuarioQuiz'));
+ //Capturamos todo lo que necesitamos
+  const startButton = document.getElementById('start-btn');
+  const nextButton = document.getElementById('next-btn');
+  const questionContainerElement = document.getElementById('question-container');
+  const questionElement = document.getElementById('question');
+  const answerButtonsElement = document.getElementById('answer-buttons');
+  
+//Aqui se comprueba si los elementos existen en el DOM antes de ejecutar el código
+  if (startButton && nextButton && questionContainerElement) {
+    let questionList = [];
+    let currentQuestionIndex = 0;
+    let correctAnswersCount = 0;
 
-  // Verificar si los datos existen
-  if (datos) {
-    const { correctas, total } = datos;
+//Esta función se encarga de iniciar el juego, ocultando el botón de inicio y mostrando las preguntas
+    async function startGame() {
+      startButton.classList.add('hide');
+      currentQuestionIndex = 0;
+      correctAnswersCount = 0;
+      questionContainerElement.classList.remove('hide');
+      questionList = await getQuestions();
+      setNextQuestion();
+    }
+//Esta en cambio se encarga de obtener las preguntas de la API y formatearlas para que sean más fáciles de usar
+    async function getQuestions() {
+      const res = await fetch('https://quizapi.io/api/v1/questions?limit=10', {
+        headers: {
+          'X-Api-Key': 'VqCrxdX2mo4HsoTysxcRjIi9qFIgh52OqSvn8lEs'
+        }
+      });
 
-    // Mostrar el puntaje en la página
-    document.getElementById('score').textContent = correctas;
-    document.getElementById('total').textContent = `/${total}`;
+      const data = await res.json();
+//este map se encarga de recorrer las preguntas y formatearlas para que sean más fáciles de usar
+      // y devuelve un array de objetos con las preguntas y respuestas
+      return data.map(q => {
+        const answers = [];
+        for (let key in q.answers) {
+          if (q.answers[key]) {
+            const letter = key.split('_')[1];
+            const correct = q.correct_answers[`answer_${letter}_correct`] === 'true';
+            answers.push({ text: q.answers[key], correct: correct });
+          }
+        }
+        return {
+          question: q.question,
+          answers: answers
+        };
+      });
+    }
+//Aqui se encarga de mostrar la siguiente pregunta, reseteando el estado anterior y mostrando la nueva pregunta
+    function setNextQuestion() {
+      resetState();
+      showQuestion(questionList[currentQuestionIndex]);
+    }
+//ShowQuestion se encarga de mostrar la pregunta y las respuestas en el DOM, creando los botones para cada respuesta
+    function showQuestion(question) {
+      questionElement.innerText = question.question;
+      question.answers.forEach(answer => {
+        const button = document.createElement('button');
+        button.innerText = decodeHTML(answer.text);
+        button.classList.add('btn');
+        if (answer.correct) button.dataset.correct = true;
+        button.addEventListener('click', selectAnswer);
+        answerButtonsElement.appendChild(button);
+      });
+    }
+//Esta función se encarga de resetear el estado anterior, ocultando el botón de siguiente y limpiando las respuestas
+    function resetState() {
+      clearStatusClass(document.body);
+      nextButton.classList.add('hide');
+      answerButtonsElement.innerHTML = '';
+    }
+//SelectAnswer se encarga de comprobar si la respuesta es correcta o incorrecta, y deshabilitar los botones de respuesta
+    function selectAnswer(e) {
+      const selectedButton = e.target;
+      const correct = selectedButton.dataset.correct;
 
-    // Calcular el mensaje personalizado
-    const porcentaje = (correctas / total) * 100;
-    let message = "";
+      setStatusClass(selectedButton, correct);
 
-    if (porcentaje === 100) {
-      message = "¡Perfecto! ¡Excelente trabajo!";
-    } else if (porcentaje >= 70) {
-      message = "¡Buen trabajo!";
-    } else if (porcentaje >= 50) {
-      message = "No está mal, pero puedes mejorar.";
-    } else {
-      message = "Necesitas practicar más. ¡Ánimo!";
+      Array.from(answerButtonsElement.children).forEach(button => {
+        button.disabled = true;
+        setStatusClass(button, button.dataset.correct);
+      });
+
+      if (correct === "true") {
+        correctAnswersCount++;
+      }
+
+      if (currentQuestionIndex < questionList.length - 1) {
+        nextButton.classList.remove('hide');
+      } else {
+        localStorage.setItem('usuarioQuiz', JSON.stringify({
+          correctas: correctAnswersCount,
+          total: questionList.length
+        }));
+        window.location.href = 'results.html';
+      }
+    }
+//Aqui se encarga de añadir la clase correcta o incorrecta a los botones de respuesta, y limpiar el estado anterior
+    function setStatusClass(element, correct) {
+      clearStatusClass(element);
+      if (correct) {
+        element.classList.add('color-correct');
+      } else {
+        element.classList.add('color-wrong');
+      }
+    }
+//Limpia el estado anterior de los botones de respuesta, eliminando las clases correctas e incorrectas
+    function clearStatusClass(element) {
+      element.classList.remove('color-correct');
+      element.classList.remove('color-wrong');
+    }
+//Cambia el texto de las respuestas a su formato original, ya que la API devuelve el texto en formato HTML
+    function decodeHTML(html) {
+      const txt = document.createElement("textarea");
+      txt.innerHTML = html;
+      return txt.value;
     }
 
-    // Mostrar el mensaje en la página
-    document.getElementById('result-message').textContent = message;
-
-    // Mostrar en consola
-    console.log("Datos desde localStorage:", datos);
-    console.log("Score:", correctas);
-    console.log("Total:", total);
-    console.log("Message:", message);
-  } else {
-    // Si no hay datos en localStorage, mostrar mensaje de error
-    document.getElementById('score').textContent = "0";
-    document.getElementById('total').textContent = "/0";
-    document.getElementById('result-message').textContent = "No se encontraron resultados. ¿Jugamos una partida?";
-    console.log("No se encontraron datos en localStorage.");
+    startButton.addEventListener('click', startGame);
+    nextButton.addEventListener('click', () => {
+      currentQuestionIndex++;
+      setNextQuestion();
+    });
   }
-});
 
+  // --- BLOQUE PARA results.html ---
+  const scoreSpan = document.getElementById('score');
+  const totalSpan = document.getElementById('total');
+  const messageParagraph = document.getElementById('result-message');
 
+  if (scoreSpan && totalSpan && messageParagraph) {
+    const datos = JSON.parse(localStorage.getItem('usuarioQuiz'));
 
+    if (datos) {
+      const correctas = datos.correctas;
+      const total = datos.total;
 
+      scoreSpan.textContent = correctas;
+      totalSpan.textContent = '/' + total;
 
-/*
-document.addEventListener('DOMContentLoaded', () => {
-  console.log("¿Se está ejecutando results.js?");
+      const porcentaje = (correctas / total) * 100;
+      let mensaje = "";
 
-  const datos = JSON.parse(localStorage.getItem('usuarioQuiz'));
-  console.log("Datos desde localStorage:", datos);
+      if (porcentaje === 100) {
+        mensaje = "¡Perfecto! ¡Excelente trabajo!";
+      } else if (porcentaje >= 70) {
+        mensaje = "¡Buen trabajo!";
+      } else if (porcentaje >= 50) {
+        mensaje = "No está mal, pero puedes mejorar.";
+      } else {
+        mensaje = "Necesitas practicar más. ¡Ánimo!";
+      }
 
-  if (datos) {
-    const { correctas, total } = datos;
-    console.log("Score:", correctas);
-    console.log("Total:", total);
-
-    // Mostrar en la página
-    document.getElementById('score').textContent = correctas;
-    document.getElementById('total').textContent = `/${total}`;
-
-    // Calcular porcentaje y mensaje
-    const porcentaje = (correctas / total) * 100;
-    let message = "";
-
-    if (porcentaje === 100) {
-      message = "¡Perfecto! ¡Excelente trabajo!";
-    } else if (porcentaje >= 70) {
-      message = "¡Buen trabajo!";
-    } else if (porcentaje >= 50) {
-      message = "No está mal, pero puedes mejorar.";
+      messageParagraph.textContent = mensaje;
     } else {
-      message = "Necesitas practicar más. ¡Ánimo!";
+      scoreSpan.textContent = '0';
+      totalSpan.textContent = '/0';
+      messageParagraph.textContent = 'No se encontraron resultados. ¿Jugamos una partida?';
     }
-
-    console.log("Message:", message);
-    document.getElementById('result-message').textContent = message;
-
-  } else {
-    console.warn("No se encontraron resultados en localStorage.");
-    document.getElementById('score').textContent = "0";
-    document.getElementById('total').textContent = "/0";
-    document.getElementById('result-message').textContent = "No se encontraron resultados. ¿Jugamos una partida?";
   }
 });
-*/
-    
