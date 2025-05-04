@@ -1,11 +1,11 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Resultados del Quiz</title>
-  <link rel="stylesheet" href="style.css">
-    <script src="main.js" defer></script> 
+  <link rel="stylesheet" href="style.css" />
+  <script src="main.js" defer></script>
 </head>
 <body>
   <header class="header_container">
@@ -13,27 +13,29 @@
   </header>
 
   <div class="results-container">
-   
     <div class="result-card">
-      <h2>¡Aquí van tus resultados!</h2>
       <div class="result-content">
-
+        
+        <!-- Score a la izquierda en desktop -->
         <div class="score-circle">
           <span id="score">0</span>
           <span id="total">/0</span>
         </div>
 
-        <div class="text-and-button">
-          <p id="result-message">Esto puede ser un texto personalizado de la puntuación.</p>
-
+        <!-- Texto a la derecha (en desktop), arriba en mobile -->
+        <div class="text-section">
+          <h2>¡Aquí van tus resultados!</h2>
+          <p id="result-message">Necesitas practicar más</p>
           <a href="question.html">
-            <button class="btn">Jugar otra vez</button>
+            <button class="boton">Jugar otra vez</button>
           </a>
         </div>
 
       </div>
     </div>
   </div>
-
 </body>
 </html>
+
+
+

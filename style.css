@@ -18,39 +18,41 @@ header {
 .page-container {
   display: flex;
   flex-wrap: wrap;  
-  justify-content: space-evenly; 
-  gap: 100px;
-  padding: 20px;
-  height: 200px;
+  justify-content: flex-start;
+  gap: 40px;
+  padding-left: 100px;
+  padding-right: 20px;
+  
+ 
+
 }
 
 /* Cada bloque */
 .bloque {
+  display: flex;
   background-color: white;
   width: 300px;
-  height: 200px;
-  margin-left: 50px;
-  margin-right: 50px;
+  height: 230px;
+  margin: 0 ;
   border-radius: 10px;
-  padding: 20px;
-  display: flex;
   box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.2);
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  padding-right: 20px;
  
 }
 .bloque p {
-  font-size: 15px;
+  font-size: 14px;
   font-family: Verdana, Geneva, Tahoma, sans-serif;
   font-weight: bold;
   color: black;
   text-align: center;
-  margin-bottom: 100px;
+  margin-bottom: 130px;
 
 }
-
-button {
+.bloque button{
+  font-size: 14px;
   margin-top: 15px;
   padding: 10px 20px;
   background-color: #1a3c6c;
@@ -58,23 +60,25 @@ button {
   border: none;
   border-radius: 5px;
   cursor: pointer;
+
+}
+.bloque button:focus {
+  outline: none;
 }
 
-button:hover {
-  background-color: #83ecec;
-}
 
-.bloque2 {
+.page-container .bloque2 {
   display: flex;
   flex-direction: column;
   background-color: white;
   width: 300px;
-  height: 200px;
-  margin-left: 50px;
-  margin-right: 50px;
+  height: 230px;
   border-radius: 10px;
   padding: 20px;
   box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.2);
+  justify-content: center;
+  margin: 0;
+  
 }
 
 .bloque2 p {
@@ -83,6 +87,21 @@ button:hover {
   font-size: 18px;
   font-weight: bold;
 
+}
+
+@media (max-width: 1200px) {
+  .page-container {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+    align-items: center;
+    padding: 10px;
+  }
+
+  .bloque,
+  .bloque2 {
+    margin: auto;
+  }
 }
 
 .questions-page {
@@ -165,86 +184,150 @@ h1{
   padding-left: 50px;
   
 }
-  .results-container {
-    display: block;
-    justify-content: center;
-    padding: 40px 20px;
-}
-  
-.result-card {
-  background-color: white;
-  border-radius: 12px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-  padding: 30px;
-  text-align: center;
- 
-  width: 100%;
-  height: 200px;
+
+
+
+.results-container {
+  display: flex;
+  justify-content: center;
+  margin-top: 30px;
+  margin-right: 0 20px;
   
 }
 
-.score-circle {
-  background-color: #c8f7dc;
-  border-radius: 50%;
-  width: 200px;
+.result-card {
+  background-color: white;
+  border-radius: 8px;
+  padding: 30px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  width: 90%;
+  max-width: 600px;
+  height: auto
+  min-height: 240px;
+  margin: 0 auto;
+
  
-  padding: 65px;
+  
+}
+
+/* Flex container para los elementos dentro de result-card */
+.result-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 15px;
+  text-align: center;
+}
+
+/* Estilos para el círculo de puntuación */
+.score-circle {
+  background-color: #c9e4da;
+  border-radius: 50%;
+
+  width: 140px;
+  height: 140px;
   display: flex;
   justify-content: center;
   align-items: center;
-  margin-left: 80px;
-  padding: 60px;
-  position: absolute;
-  
+ 
+
 }
 
-.score-circle .score {
-
+#score, #total  {
+  font-size: 50px;
+  font-family: Arial, Helvetica, sans-serif;
   font-weight: bold;
-  justify-content: space-between
-}
-
-.score-circle .total {
-  font-size: 2rem;
-  position: absolute;
-  justify-content: center;
-  bottom: 10px;
-  right: 10px;
-}
-
-.result-card h2 {
-  font-family: Arial, Helvetica, sans-serif; 
-  font-size: 15px;
-  text-align: right;
-  margin-right: 50px;
-  margin-top: 20px;
 
 }
 
-.result-card p {
-  margin: 0 0 1.5rem;
-  color: #555;
-  padding: 15px;
-  text-align: right;
-  padding-right: 100px;
+
+/* Sección de texto (h2, p, y botón) */
+.text-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  margin-right: 60px;
 }
 
-.result-card {
-  padding: 0.8rem;
+.text-section h2 {
+  font-family: Arial, Helvetica, sans-serif;
+  font-weight: bold;
+  font-size: 18px;
+  margin: 0;
+ 
 }
 
-.score-circle {
-  width: 60px;
-  height: 60px;
+.text-section p {
+  margin: 0 
+  text-align: center;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 14px;
+    
+}
+
+.boton {
+  background-color: #1a3c6c;
+  color: white;
+  border: none;
+  padding: 0.8rem 1rem;
+  font-size: 1rem;
+  cursor: pointer;
+  border-radius: 5px;
+  margin-top: 45px;
+}
+
+
+
+
+/* Responsive para pantallas grandes (monitor, desktop) */
+@media (min-width: 767px) {
+  .result-content {
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    gap: 40px;
+    text-align: left;
+  }
+
+  .text-section {
+    align-items: flex-start;
+  }
+
+  .text-section h2,
+  .text-section p
+  .boton {
+    text-align: left;
+    margin: 0;
+  }
+  .score-circle {
+    margin-left: 40px;
+    margin-bottom: 0;
+  }
+  @media (max-width: 767px) {
+    .result-content {
+      flex-direction: column; /* Aseguramos que se apilen verticalmente */
+      gap: 15px; 
+    }
+  
+    /* Cambiamos el orden de los elementos en móvil */
+    .text-section h2 {
+      order: 1;
+    }
+  
+    .score-circle {
+      order: 2;
+    }
+  
+    .text-section p {
+      order: 3;
+    }
+  
+    .boton {
+      order: 4;
+    }
+  }
+
 
 }
 
-.score {
-  font-size: 0.7rem;
-
-}
-
-.score-circle .total {
-  font-size: 1.0rem;
-  text-align: justify;
-}
