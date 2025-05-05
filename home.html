@@ -4,6 +4,8 @@
   <meta charset="UTF-8" />
   <title>SPA - Quiz</title>
   <link rel="stylesheet" href="style.css" />
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="main.js" defer></script>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 </head>
 <body>
@@ -12,18 +14,18 @@
 </header>
 
 <div class="page-container">
-  <!-- Bloque 1 -->
+
   <div class="bloque">
     <p>¡Welcome to the quiz!</p>
-    <!-- Envolvemos el botón con un enlace -->
     <a href="question.html">
       <button id="start-btn" class="btn">Take the Quiz</button>
     </a>
   </div>
 
   <div class="bloque2">
-    <p>Your stats</p>
-  </div>
+    <canvas id="myChart"></canvas>
+</div>
+
 </div>
 
 </body>

@@ -10,7 +10,7 @@ body {
 header {
     background-color: #1a3c6c;
     color: white;
-    padding: 20px;
+    padding: 15px;
     text-align: center;
     margin-bottom: 30px; 
 }
@@ -18,32 +18,30 @@ header {
 .page-container {
   display: flex;
   flex-wrap: wrap;  
-  justify-content: flex-start;
+  justify-content: center;
   gap: 40px;
   padding-left: 100px;
   padding-right: 20px;
   
- 
-
 }
 
 /* Cada bloque */
 .bloque {
   display: flex;
   background-color: white;
-  width: 300px;
-  height: 230px;
+  width: 500px;
+  height: 430px;
   margin: 0 ;
   border-radius: 10px;
-  box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.2);
+  box-shadow: 5px 5px 15px rgba(19, 18, 18, 0.2);
   flex-direction: column;
   justify-content: center;
   align-items: center;
   padding-right: 20px;
- 
+
 }
 .bloque p {
-  font-size: 14px;
+  font-size: 40px;
   font-family: Verdana, Geneva, Tahoma, sans-serif;
   font-weight: bold;
   color: black;
@@ -52,7 +50,7 @@ header {
 
 }
 .bloque button{
-  font-size: 14px;
+  font-size: 20px;
   margin-top: 15px;
   padding: 10px 20px;
   background-color: #1a3c6c;
@@ -71,8 +69,8 @@ header {
   display: flex;
   flex-direction: column;
   background-color: white;
-  width: 300px;
-  height: 230px;
+  width: 500px;
+  height: 430px;
   border-radius: 10px;
   padding: 20px;
   box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.2);
@@ -185,8 +183,6 @@ h1{
   
 }
 
-
-
 .results-container {
   display: flex;
   justify-content: center;
@@ -202,12 +198,9 @@ h1{
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   width: 90%;
   max-width: 600px;
-  height: auto
+  height: auto;
   min-height: 240px;
   margin: 0 auto;
-
- 
-  
 }
 
 /* Flex container para los elementos dentro de result-card */
@@ -259,11 +252,10 @@ h1{
 }
 
 .text-section p {
-  margin: 0 
+  margin: 0;
   text-align: center;
   font-family: Arial, Helvetica, sans-serif;
   font-size: 14px;
-    
 }
 
 .boton {
@@ -277,7 +269,16 @@ h1{
   margin-top: 45px;
 }
 
-
+.boton2 {
+  background-color: #5d97e8;
+  color: white;
+  border: none;
+  padding: 0.5rem 0.5rem;
+  font-size: 0.8rem;
+  cursor: pointer;
+  border-radius: 5px;
+  margin-top: 20px;
+}
 
 
 /* Responsive para pantallas grandes (monitor, desktop) */

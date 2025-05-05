@@ -163,3 +163,32 @@ document.addEventListener('DOMContentLoaded', function () {
     }
   }
 });
+
+//bloque para la gráfica de Chart
+const ctx = document.getElementById('myChart')
+const labels = ['Correctas', 'Incorrectas',]
+const datos = JSON.parse(localStorage.getItem('usuarioQuiz'));
+const correctas = datos.correctas;
+const total = datos.total;
+const data = {
+ type: 'polarArea',
+ data: {
+   labels: labels,
+   datasets: [
+     {
+       label: 'Quiz Results',
+       backgroundColor: ['rgb(31, 250, 42)','rgb(255, 50, 50)'],
+       data: [correctas, total - correctas],
+     },
+   ],
+ },
+ options: {
+   scales: {
+     y: {
+       beginAtZero: true,
+     },
+   },
+ },
+}
+
+new Chart(ctx, data)
