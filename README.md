@@ -1,3 +1,4 @@
+![quiz](https://github.com/user-attachments/assets/7f015c46-615f-4efd-84be-3e8729537eb9)
 
 # QUIZ GAME
 
